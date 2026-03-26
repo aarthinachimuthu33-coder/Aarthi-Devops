@@ -2,13 +2,14 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest' # This will work ONLY after the form in Step 1 is approved
 
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
+    echo Add other tasks here
+    echo like npm install or dotnet build
   displayName: 'Run a multi-line script'
+

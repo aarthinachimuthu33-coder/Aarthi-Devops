@@ -1,18 +1,39 @@
-
 trigger:
 - main
 
-
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'   # Works for both .NET and Node
 
 steps:
 
-- script: echo "Pipeline is starting..."
-  displayName: 'Start Message'
+- task: UseDotNet@2
+  displayName: 'Install .NET SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
 
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'Build Project'
+- script: dotnet restore
+  displayName: 'Restore .NET dependencies'
+
+- script: dotnet build --configuration Release
+  displayName: 'Build .NET project'
+
+- script: dotnet test --configuration Release
+  displayName: 'Test .NET project'
+
+
+- task: NodeTool@0
+  displayName: 'Install Node.js'
+  inputs:
+    versionSpec: '18.x'
+
+
+- script: npm install
+  displayName: 'Install Node dependencies'
+
+- script: npm run build
+  displayName: 'Build Node project'
+
+- script: npm test
+  displayName: 'Test Node project'
